@@ -1,10 +1,3 @@
-This package was debianized by Guillem Jover <guillem@debian.org> on
-Fri, 30 Apr 2004 06:35:50 +0200.
-
-The debian packages are maintained through Subversion on:
-
-    <svn://svn.debian.org/glibc-bsd/>
-
 The upstream source was downloaded and packaged from the FreeBSD Subversion
 repository. Take a look at the “debian/rules get-orig-source”.
 
