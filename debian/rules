@@ -10,7 +10,7 @@ DESTDIR = $(CURDIR)/debian/tmp
 
 DEB_HOST_ARCH_OS = $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 
-CFLAGS := -Wall \
+CFLAGS := -Wall -Werror=implicit-function-declaration \
           $(shell dpkg-buildflags --get CFLAGS) \
           $(shell pkg-config --cflags libbsd-overlay)
 CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)

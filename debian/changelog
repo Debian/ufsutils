@@ -13,6 +13,7 @@ ufsutils (8.2-4) UNRELEASED; urgency=low
   * Switch to the libbsd-overlay.
     - Remove sys/endian.h local header now provided by libbsd.
   * Add install and install-indep targets for consistency.
+  * Add -Werror=implicit-function-declaration to build flags.
 
  -- Robert Millan <rmh@debian.org>  Thu, 08 Dec 2011 13:40:32 +0100
 
