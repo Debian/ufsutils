@@ -88,7 +88,6 @@ build: build-indep build-arch
 
 clean:
 	dh_testdir
-	dh_testroot
 
 	[ ! -f lib/port/Makefile ] || $(PMAKE) -C lib/port clean
 	for d in $(SRCDIRS); do \

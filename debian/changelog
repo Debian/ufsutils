@@ -19,6 +19,7 @@ ufsutils (8.2-4) UNRELEASED; urgency=low
     fix typos, and remove repeated text.
   * Switch to use the upstream build system. Add a Build-Depends on
     freebsd-buildutils for pmake.
+  * Do not require root on the clean target.
 
  -- Robert Millan <rmh@debian.org>  Thu, 08 Dec 2011 13:40:32 +0100
 
