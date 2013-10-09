@@ -10,9 +10,12 @@ DESTDIR = $(CURDIR)/debian/tmp
 
 DEB_HOST_ARCH_OS = $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 
-CFLAGS := -Wall $(shell dpkg-buildflags --get CFLAGS)
+CFLAGS := -Wall \
+          $(shell dpkg-buildflags --get CFLAGS) \
+          $(shell pkg-config --cflags libbsd-overlay)
 CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
-LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS)
+LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS) \
+           $(shell pkg-config --libs libbsd-overlay)
 
 # GNU/kFreeBSD already have off_t 64bit. It must not be enabled,
 # as it would change size of ino_t

@@ -115,7 +115,7 @@
 -MAN=	newfs.8
 +MAN=	newfs.8:mkfs.ufs.8
 +
-+LDADD += -L../../lib/libufs -lufs -L../../lib/port -lport -lbsd
++LDADD += -L../../lib/libufs -lufs -L../../lib/port -lport
 +INCLUDES = -I../../lib/libufs -include ../../lib/port/blockdev.h
  
 -.include <bsd.prog.mk>

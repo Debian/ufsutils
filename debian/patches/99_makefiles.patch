@@ -35,7 +35,7 @@
 +.PHONY: all clean install $(SUBDIRS) $(clean_targets) $(install_targets)
 --- /dev/null
 +++ b/Makefile.common
-@@ -0,0 +1,91 @@
+@@ -0,0 +1,90 @@
 +#
 +# $Id: Makefile.common 45 2004-05-03 11:07:29Z guillem $
 +#
@@ -48,9 +48,8 @@
 +mandir = $(datadir)/man
 +man8dir = $(mandir)/man8
 +
-+#LDADD += -lbsd
 +CFLAGS ?= -Wall -g -O2
-+ALL_CFLAGS +=  -I../../sys -I../../lib/port -include port.h -include bsd/bsd.h -D_GNU_SOURCE
++ALL_CFLAGS +=  -I../../sys -I../../lib/port -include port.h -D_GNU_SOURCE
 +# -DHAVE_BSD_ERRNO -DHAVE_BSD_SIGNALS -DHAVE_BSD_STATFS -DHAVE_BSD_DISKLABEL -DHAVE_BSD_MOUNT -DHAVE_UFS_SNAPSHOT -DHAVE_BSD_SYSCTL
 +
 +INSTALL = install

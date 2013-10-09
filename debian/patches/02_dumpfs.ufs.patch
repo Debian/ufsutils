@@ -28,7 +28,7 @@
 +WARNS = 0
 +MAN = dumpfs.8:dumpfs.ufs.8
 +
-+LDADD += -L../../lib/libufs/ -lufs -lbsd
++LDADD += -L../../lib/libufs/ -lufs
 +INCLUDES = -I../../lib/libufs
 +
 +include ../../Makefile.common

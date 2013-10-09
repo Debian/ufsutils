@@ -18,7 +18,7 @@
 +MAN = badsect.8:badsect.ufs.8
 +
 +INCLUDES = -I../../lib/libufs
-+LDADD += -L../../lib/libufs -lufs -lbsd
++LDADD += -L../../lib/libufs -lufs
 +
 +include ../../Makefile.common
  

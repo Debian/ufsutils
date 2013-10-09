@@ -18,7 +18,7 @@
 -SRCS=	ffsinfo.c debug.c
 -MAN=	ffsinfo.8
 +ALL_CFLAGS = -DFS_DEBUG -I../growfs -I../../lib/libufs
-+LDADD += -L../../lib/libufs -lufs -lbsd
++LDADD += -L../../lib/libufs -lufs
 +
 +include ../../Makefile.common
  

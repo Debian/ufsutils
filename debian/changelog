@@ -10,6 +10,8 @@ ufsutils (8.2-4) UNRELEASED; urgency=low
   * Now using Standards-Version 3.9.3.
   * Switch to canonical Vcs URLs.
   * Remove packaging history from debian/copyright.
+  * Switch to the libbsd-overlay.
+    - Remove sys/endian.h local header now provided by libbsd.
 
  -- Robert Millan <rmh@debian.org>  Thu, 08 Dec 2011 13:40:32 +0100
 

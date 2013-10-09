@@ -74,7 +74,7 @@
   * practice this seems unlikely. So, we define the type doff_t as a 32-bit
 --- a/lib/libufs/Makefile
 +++ b/lib/libufs/Makefile
-@@ -1,27 +1,17 @@
+@@ -1,27 +1,16 @@
  # $FreeBSD$
  
  LIB=	ufs
@@ -99,7 +99,6 @@
 +ifdef LIBUFS_DEBUG
 +ALL_CFLAGS+= -D_LIBUFS_DEBUGGING
 +endif
-+LDADD += -lbsd
 +INCLUDES = -I.
  
 -WARNS?=	2
