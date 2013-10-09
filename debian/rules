@@ -65,6 +65,8 @@ clean:
 
 	dh_clean
 
+install-indep:
+
 install-arch: build-arch
 	dh_testdir
 	dh_testroot
@@ -77,7 +79,9 @@ install-arch: build-arch
 
 	$(MAKE) install DESTDIR=$(DESTDIR) prefix=/usr exec_prefix=/
 
-.PHONY: clean install-arch
+install: install-indep install-arch
+
+.PHONY: clean install-indep install-arch install
 
 # Build architecture-independent files here.
 binary-indep:
