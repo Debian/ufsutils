@@ -1,11 +1,10 @@
 ---
- sbin/bsdlabel/Makefile   |   16 ++++++----------
  sbin/bsdlabel/bsdlabel.c |   13 +++++++++++--
- 2 files changed, 17 insertions(+), 12 deletions(-)
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 --- a/sbin/bsdlabel/bsdlabel.c
 +++ b/sbin/bsdlabel/bsdlabel.c
-@@ -60,7 +60,9 @@
+@@ -60,7 +60,9 @@ __FBSDID("$FreeBSD$");
  #include <sys/file.h>
  #include <sys/stat.h>
  #include <sys/wait.h>
@@ -15,7 +14,7 @@
  #define DKTYPENAMES
  #define FSTYPENAMES
  #define MAXPARTITIONS	26
-@@ -69,7 +71,7 @@
+@@ -69,7 +71,7 @@ __FBSDID("$FreeBSD$");
  #include <unistd.h>
  #include <string.h>
  #include <stdio.h>
@@ -24,7 +23,7 @@
  #include <stdlib.h>
  #include <signal.h>
  #include <stdarg.h>
-@@ -720,10 +722,12 @@
+@@ -720,10 +722,12 @@ editit(void)
  
  	omask = sigblock(sigmask(SIGINT)|sigmask(SIGQUIT)|sigmask(SIGHUP));
  	while ((pid = fork()) < 0) {
@@ -37,7 +36,7 @@
  		if (errno != EAGAIN) {
  			warn("fork");
  			return(0);
-@@ -1508,13 +1512,18 @@
+@@ -1508,13 +1512,18 @@ getvirginlabel(void)
  	 * to get any good ideas from the device, construct something
  	 * which is IBM-PC friendly.
  	 */
@@ -57,34 +56,3 @@
  		loclab.d_ntracks = 1;
  	else if (loclab.d_secperunit <= 63*16*1024)
  		loclab.d_ntracks = 16;
---- a/sbin/bsdlabel/Makefile
-+++ b/sbin/bsdlabel/Makefile
-@@ -4,14 +4,8 @@
- .PATH: ${.CURDIR}/../../sys/geom
- 
- PROG=	bsdlabel
--SRCS=	bsdlabel.c geom_bsd_enc.c
--#MAN=	bsdlabel.5
--MAN+=	bsdlabel.8
--
--.if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "amd64"
--LINKS=	${BINDIR}/bsdlabel ${BINDIR}/disklabel
--MLINKS=	bsdlabel.8 disklabel.8
--.endif
-+SRCS=	bsdlabel.c ../../sys/geom/geom_bsd_enc.c
-+MAN = bsdlabel.8:bsdlabel.8
- 
- DPADD=	${LIBGEOM} ${LIBBSDXML} ${LIBSBUF}
- LDADD=	-lgeom -lbsdxml -lsbuf
-@@ -19,7 +13,9 @@
- .include <bsd.prog.mk>
- 
- test: ${PROG}
--	sh ${.CURDIR}/runtest.sh
-+	sh ${CURDIR}/runtest.sh
- 
- testx: ${PROG}
--	sh -x ${.CURDIR}/runtest.sh
-+	sh -x ${CURDIR}/runtest.sh
-+
-+include ../../Makefile.common

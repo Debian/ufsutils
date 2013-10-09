@@ -7,13 +7,16 @@
 #export DH_VERBOSE=1
 
 DESTDIR = $(CURDIR)/debian/tmp
+libdir := $(DESTDIR)/lib
+sbindir := $(DESTDIR)/sbin
+man8dir := $(DESTDIR)/usr/share/man/man8
 
 DEB_HOST_ARCH_OS = $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
 
 CFLAGS := -Wall -Werror=implicit-function-declaration \
+          $(shell dpkg-buildflags --get CPPFLAGS) \
           $(shell dpkg-buildflags --get CFLAGS) \
           $(shell pkg-config --cflags libbsd-overlay)
-CPPFLAGS := $(shell dpkg-buildflags --get CPPFLAGS)
 LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS) \
            $(shell pkg-config --libs libbsd-overlay)
 
@@ -22,6 +25,28 @@ LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS) \
 ifneq (kfreebsd,$(DEB_HOST_ARCH_OS))
 CFLAGS += -D_FILE_OFFSET_BITS=64
 endif
+
+CFLAGS += -I$(CURDIR)/lib/port -include port.h \
+          -I$(CURDIR)/sys -I$(CURDIR)/lib/libufs \
+          -D_GNU_SOURCE
+LDFLAGS += -L$(CURDIR)/lib/port -L$(CURDIR)/lib/libufs
+
+PATH := /usr/lib/freebsd:$(PATH)
+PMAKE = CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
+        NO_WERROR=1 NO_SHARED=NO NO_PROFILE=1 NO_PIC=1 WARNS=0 \
+        DESTDIR=$(DESTDIR) make
+
+SRCDIRS := \
+  lib/libufs \
+  sbin/badsect \
+  sbin/dumpfs \
+  sbin/ffsinfo \
+  sbin/fsck_ffs \
+  sbin/fsdb \
+  sbin/growfs \
+  sbin/newfs \
+  sbin/tunefs \
+  $(nil)
 
 SOURCE = $(shell dpkg-parsechangelog | sed -e '/^Source:/!d' -e 's/^Source: //g')
 VERSION = $(shell dpkg-parsechangelog | sed -e '/^Version:/!d' -e 's/^Version: //g' -e 's/-.*//g')
@@ -32,9 +57,12 @@ TARNAME = $(SOURCE)_$(VERSION).orig.tar.gz
 get-orig-source:
 	rm -rf $(ORIGDIR)
 	mkdir -p $(ORIGDIR)/sys/sys $(ORIGDIR)/sys/geom
-	for i in sbin/badsect sbin/dump sbin/dumpfs sbin/fsck_ffs sbin/fsdb \
-		 sbin/growfs sbin/newfs sbin/tunefs sbin/bsdlabel \
-		 sbin/sunlabel sbin/ffsinfo sbin/mount lib/libufs sys/ufs \
+	for i in $(SRCDIRS) \
+		 sbin/bsdlabel \
+		 sbin/dump \
+		 sbin/mount \
+		 sbin/sunlabel \
+		 sys/ufs \
 		 sys/geom/geom_bsd_enc.c \
 		 sys/sys/disklabel.h sys/sys/mount.h sys/sys/param.h \
 		 sys/sys/ucred.h ; \
@@ -49,7 +77,10 @@ build-indep:
 build-arch:
 	dh_testdir
 
-	CPPFLAGS="$(CPPFLAGS)" CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" $(MAKE)
+	$(PMAKE) -C lib/port
+	for d in $(SRCDIRS); do \
+		$(PMAKE) -C $$d; \
+	done
 
 build: build-indep build-arch
 
@@ -59,7 +90,10 @@ clean:
 	dh_testdir
 	dh_testroot
 
-	[ ! -f Makefile ] || $(MAKE) clean
+	[ ! -f lib/port/Makefile ] || $(PMAKE) -C lib/port clean
+	for d in $(SRCDIRS); do \
+		$(PMAKE) -C $$d clean; \
+	done
 
 	dh_clean
 
@@ -71,11 +105,38 @@ install-arch: build-arch
 	dh_prep
 	dh_installdirs
 
-	mkdir -p $(DESTDIR)/lib
-	mkdir -p $(DESTDIR)/sbin
-	mkdir -p $(DESTDIR)/usr/share/man/man8
+	mkdir -p $(libdir)
+	mkdir -p $(sbindir)
+	mkdir -p $(man8dir)
 
-	$(MAKE) install DESTDIR=$(DESTDIR) prefix=/usr exec_prefix=/
+	for d in $(SRCDIRS); do \
+		$(PMAKE) -C $$d install BINDIR=/sbin SHLIBDIR=/lib; \
+	done
+
+	# Rename files
+	mv $(sbindir)/badsect	$(sbindir)/badsect.ufs
+	mv $(sbindir)/dumpfs	$(sbindir)/dumpfs.ufs
+	mv $(sbindir)/fsck_ffs	$(sbindir)/fsck.ufs
+	mv $(sbindir)/fsdb	$(sbindir)/fsdb.ufs
+	mv $(sbindir)/growfs	$(sbindir)/growfs.ufs
+	mv $(sbindir)/newfs	$(sbindir)/mkfs.ufs
+	mv $(sbindir)/tunefs	$(sbindir)/tunefs.ufs
+
+	# Remove hardlinks
+	rm $(sbindir)/fsck_4.2bsd
+	rm $(sbindir)/fsck_ufs
+
+	mv $(man8dir)/badsect.8.gz	$(man8dir)/badsect.ufs.8.gz
+	mv $(man8dir)/dumpfs.8.gz	$(man8dir)/dumpfs.ufs.8.gz
+	mv $(man8dir)/fsck_ffs.8.gz	$(man8dir)/fsck.ufs.8.gz
+	mv $(man8dir)/fsdb.8.gz		$(man8dir)/fsdb.ufs.8.gz
+	mv $(man8dir)/growfs.8.gz	$(man8dir)/growfs.ufs.8.gz
+	mv $(man8dir)/newfs.8.gz	$(man8dir)/mkfs.ufs.8.gz
+	mv $(man8dir)/tunefs.8.gz	$(man8dir)/tunefs.ufs.8.gz
+
+	# Remove broken symlinks
+	rm $(man8dir)/fsck_4.2bsd.8.gz
+	rm $(man8dir)/fsck_ufs.8.gz
 
 install: install-indep install-arch
 

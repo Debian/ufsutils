@@ -17,6 +17,8 @@ ufsutils (8.2-4) UNRELEASED; urgency=low
   * Remove unneeded debian/ufsutils.dirs file.
   * Reword warning about not enabling _FILE_OFFSET_BITS=64 on GNU/kFreeBSD,
     fix typos, and remove repeated text.
+  * Switch to use the upstream build system. Add a Build-Depends on
+    freebsd-buildutils for pmake.
 
  -- Robert Millan <rmh@debian.org>  Thu, 08 Dec 2011 13:40:32 +0100
 

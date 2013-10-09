@@ -1,13 +1,13 @@
 ---
- sbin/fsdb/Makefile   |   19 ++++++++-----------
+ sbin/fsdb/Makefile   |    2 +-
  sbin/fsdb/fsdb.8     |    2 +-
  sbin/fsdb/fsdb.c     |   14 +++++++++++++-
  sbin/fsdb/fsdbutil.c |   13 ++++++++++++-
- 4 files changed, 34 insertions(+), 14 deletions(-)
+ 4 files changed, 27 insertions(+), 4 deletions(-)
 
 --- a/sbin/fsdb/fsdb.8
 +++ b/sbin/fsdb/fsdb.8
-@@ -263,7 +263,7 @@
+@@ -263,7 +263,7 @@ There are a bunch of other things that y
  .Nm
  does not implement.
  .Sh WARNING
@@ -18,7 +18,7 @@
  can repair.
 --- a/sbin/fsdb/fsdb.c
 +++ b/sbin/fsdb/fsdb.c
-@@ -35,13 +35,13 @@
+@@ -35,13 +35,13 @@ static const char rcsid[] =
  
  #include <sys/param.h>
  #include <sys/time.h>
@@ -33,7 +33,7 @@
  
  #include <ufs/ufs/dinode.h>
  #include <ufs/ufs/dir.h>
-@@ -60,6 +60,18 @@
+@@ -60,6 +60,18 @@ static int find_blks64(uint64_t *buf, in
  static int find_indirblks32(uint32_t blk, int ind_level, uint32_t *blknum);
  static int find_indirblks64(uint64_t blk, int ind_level, uint64_t *blknum);
  
@@ -54,7 +54,7 @@
  {
 --- a/sbin/fsdb/fsdbutil.c
 +++ b/sbin/fsdb/fsdbutil.c
-@@ -41,7 +41,6 @@
+@@ -41,7 +41,6 @@ static const char rcsid[] =
  #include <stdint.h>
  #include <string.h>
  #include <time.h>
@@ -62,7 +62,7 @@
  
  #include <ufs/ufs/dinode.h>
  #include <ufs/ffs/fs.h>
-@@ -51,6 +50,18 @@
+@@ -51,6 +50,18 @@ static const char rcsid[] =
  #include "fsdb.h"
  #include "fsck.h"
  
@@ -83,27 +83,12 @@
  static void printblocks(ino_t inum, union dinode *dp);
 --- a/sbin/fsdb/Makefile
 +++ b/sbin/fsdb/Makefile
-@@ -2,15 +2,12 @@
- #	@(#)Makefile	8.1 (Berkeley) 6/5/93
- # $FreeBSD$
- 
--PROG=	fsdb
--MAN=	fsdb.8
--SRCS=	fsdb.c fsdbutil.c \
--	dir.c ea.c fsutil.c inode.c pass1.c pass1b.c pass2.c pass3.c pass4.c \
--	pass5.c setup.c utilities.c ffs_subr.c ffs_tables.c
--CFLAGS+= -I${.CURDIR}/../fsck_ffs
--WARNS?= 2
+@@ -9,7 +9,7 @@ SRCS=	fsdb.c fsdbutil.c \
+ 	pass5.c setup.c utilities.c ffs_subr.c ffs_tables.c
+ CFLAGS+= -I${.CURDIR}/../fsck_ffs
+ WARNS?= 2
 -LDADD=	-ledit -ltermcap
--DPADD=	${LIBEDIT} ${LIBTERMCAP}
--.PATH:	${.CURDIR}/../fsck_ffs ${.CURDIR}/../../sys/ufs/ffs
-+PROG = fsdb.ufs
-+MAN = fsdb.8:fsdb.ufs.8
-+SRCS = fsdb.c fsdbutil.c
-+WARNS = 0
-+LDADD += -ledit -L../../lib/libufs -lufs -L../fsck_ffs -lfsck.ufs
-+DPADD += ${LIBEDIT}
-+INCLUDES = -I../fsck_ffs
++LDADD=	-ledit
+ DPADD=	${LIBEDIT} ${LIBTERMCAP}
+ .PATH:	${.CURDIR}/../fsck_ffs ${.CURDIR}/../../sys/ufs/ffs
  
--.include <bsd.prog.mk>
-+include ../../Makefile.common

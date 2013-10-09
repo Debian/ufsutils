@@ -5,11 +5,8 @@
 00_param.patch
 00_portable_ufs_types.patch
 01_libufs.patch
-02_badsect.ufs.patch
 02_bsdlabel.ufs.patch
-02_dump.ufs.patch
 02_dumpfs.ufs.patch
-02_ffsinfo.patch
 02_fsck.ufs.patch
 02_fsdb.ufs.patch
 02_growfs.ufs.patch
@@ -18,4 +15,3 @@
 03_ufsmount.patch
 04_avoid_diocgdelete.patch
 05_wipe_otherfs.patch
-99_makefiles.patch
