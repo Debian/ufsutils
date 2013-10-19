@@ -24,10 +24,13 @@ LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS) \
 # as it would change size of ino_t.
 ifneq (kfreebsd,$(DEB_HOST_ARCH_OS))
 CFLAGS += -D_FILE_OFFSET_BITS=64
+
+# Only use the local sys partial headers hierarchy on non-kFreeBSD systems.
+CFLAGS += -I$(CURDIR)/sys
 endif
 
 CFLAGS += -I$(CURDIR)/lib/port -include port.h \
-          -I$(CURDIR)/sys -I$(CURDIR)/lib/libufs \
+          -I$(CURDIR)/lib/libufs \
           -D_GNU_SOURCE
 LDFLAGS += -L$(CURDIR)/lib/port -L$(CURDIR)/lib/libufs
 
