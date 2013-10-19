@@ -7,7 +7,7 @@ ufsutils (8.2-4) UNRELEASED; urgency=low
   [ Guillem Jover ]
   * Add build-indep and build-arch debian/rules targets:
     - Rename build to build-arch and install to install-arch.
-  * Now using Standards-Version 3.9.3.
+  * Now using Standards-Version 3.9.4.
   * Switch to canonical Vcs URLs.
   * Remove packaging history from debian/copyright.
   * Switch to the libbsd-overlay.
