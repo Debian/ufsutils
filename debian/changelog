@@ -22,6 +22,7 @@ ufsutils (8.2-4) UNRELEASED; urgency=low
   * Do not require root on the clean target.
   * Use «dpkg-parsechangelog -S» instead of sed-filtering the output.
   * Only use the local sys partial headers hierarchy on non-kFreeBSD systems.
+  * Remove myself from Uploaders.
 
  -- Robert Millan <rmh@debian.org>  Thu, 08 Dec 2011 13:40:32 +0100
 
