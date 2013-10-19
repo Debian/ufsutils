@@ -20,6 +20,7 @@ ufsutils (8.2-4) UNRELEASED; urgency=low
   * Switch to use the upstream build system. Add a Build-Depends on
     freebsd-buildutils for pmake.
   * Do not require root on the clean target.
+  * Use «dpkg-parsechangelog -S» instead of sed-filtering the output.
 
  -- Robert Millan <rmh@debian.org>  Thu, 08 Dec 2011 13:40:32 +0100
 

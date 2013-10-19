@@ -48,8 +48,8 @@ SRCDIRS := \
   sbin/tunefs \
   $(nil)
 
-SOURCE = $(shell dpkg-parsechangelog | sed -e '/^Source:/!d' -e 's/^Source: //g')
-VERSION = $(shell dpkg-parsechangelog | sed -e '/^Version:/!d' -e 's/^Version: //g' -e 's/-.*//g')
+SOURCE = $(shell dpkg-parsechangelog -SSource)
+VERSION = $(shell dpkg-parsechangelog -SVersion | sed -e 's/-.*//g')
 SVN = http://svn.freebsd.org/base/release/$(VERSION).0
 ORIGDIR = $(SOURCE)-$(VERSION)
 TARNAME = $(SOURCE)_$(VERSION).orig.tar.gz
