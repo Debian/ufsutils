@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: GNU/kFreeBSD Maintainers <debian-bsd@lists.debian.org>
 Uploaders: Aurelien Jarno <aurel32@debian.org>, Robert Millan <rmh@debian.org>
 Build-Depends: debhelper (>= 7),
+ kfreebsd-kernel-headers (>= 9.2~1),
  freebsd-buildutils,
  freebsd-glue (>= 0.1.12~),
  libbsd-dev (>= 0.3.0),

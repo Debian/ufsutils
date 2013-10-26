@@ -1,3 +1,9 @@
+ufsutils (9.2-2) UNRELEASED; urgency=low
+
+  * Avoid kfreebsd-kernel-headers versions prior to ino_t fix.
+
+ -- Robert Millan <rmh@debian.org>  Sat, 26 Oct 2013 17:47:36 +0200
+
 ufsutils (9.2-1) experimental; urgency=low
 
   * New upstream release.
