@@ -1,0 +1,20 @@
+--- a/sbin/fsck_ffs/main.c
++++ b/sbin/fsck_ffs/main.c
+@@ -82,7 +82,7 @@
+ 	sync();
+ 	skipclean = 1;
+ 	inoopt = 0;
+-	while ((ch = getopt(argc, argv, "b:Bc:CdEfFm:npryZ")) != -1) {
++	while ((ch = getopt(argc, argv, "ab:Bc:CdEfFm:npryZ")) != -1) {
+ 		switch (ch) {
+ 		case 'b':
+ 			skipclean = 0;
+@@ -130,6 +130,8 @@
+ 			yflag = 0;
+ 			break;
+ 
++		case 'a':
++			/* For compatibility with the Linux version of fsck. */
+ 		case 'p':
+ 			preen++;
+ 			/*FALLTHROUGH*/

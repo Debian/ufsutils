@@ -3,20 +3,19 @@ Section: utils
 Priority: optional
 Maintainer: GNU/kFreeBSD Maintainers <debian-bsd@lists.debian.org>
 Uploaders: Aurelien Jarno <aurel32@debian.org>, Robert Millan <rmh@debian.org>
-Build-Depends: dpkg-dev (>= 1.17.0), debhelper (>= 7), pkg-config,
+Build-Depends: debhelper (>= 7),
  freebsd-buildutils,
- libbsd-dev (>= 0.4.0),
+ freebsd-glue (>= 0.1.12~),
+ libbsd-dev (>= 0.3.0),
  libedit-dev,
- libc0.1-dev (>= 2.10.1) [kfreebsd-any]
+ libtinfo-dev,
 Vcs-Browser: http://anonscm.debian.org/viewvc/glibc-bsd/trunk/ufsutils/
 Vcs-Svn: svn://anonscm.debian.org/glibc-bsd/trunk/ufsutils/
-Standards-Version: 3.9.4
+Standards-Version: 3.9.2
 
 Package: ufsutils
-Architecture: any
+Architecture: kfreebsd-any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Provides: fsck-backend
-Conflicts: hurd
 Description: UFS filesystems utilities
  Utilities to manage the UFS filesystem, mostly used in BSD or derived
  operating systems. This include FFS, UFS and UFS2.

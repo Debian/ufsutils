@@ -1,5 +1,3 @@
-sbin/badsect.ufs 
-sbin/fsck.ufs
-sbin/growfs.ufs
-sbin/mkfs.ufs
-sbin/tunefs.ufs
+lib/libufs/libufs.so.*		/lib
+
+# The rest of this package is handled in debian/rules (requires fine-tuning)

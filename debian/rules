@@ -1,171 +1,161 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
-# Sample debian/rules that uses debhelper.
-# GNU copyright 1997 to 1999 by Joey Hess.
+# Sample debian/rules that uses cdbs.  Originaly written by Robert Millan.
+# This file is public domain.
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DESTDIR = $(CURDIR)/debian/tmp
-libdir := $(DESTDIR)/lib
-sbindir := $(DESTDIR)/sbin
-man8dir := $(DESTDIR)/usr/share/man/man8
+export SHELL = bash
 
-DEB_HOST_ARCH_OS = $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+CFLAGS = -Wall -g -pipe -fPIC -D_GNU_SOURCE \
+	-Werror=implicit-function-declaration \
+	-isystem /usr/include/freebsd \
+	$(NULL)
+CXXFLAGS = $(CFLAGS)
 
-CFLAGS := -Wall -Werror=implicit-function-declaration \
-          $(shell dpkg-buildflags --get CPPFLAGS) \
-          $(shell dpkg-buildflags --get CFLAGS) \
-          $(shell pkg-config --cflags libbsd-overlay)
-LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS) \
-           $(shell pkg-config --libs libbsd-overlay)
-
-# Note: GNU/kFreeBSD already has a 64-bit off_t. It must not be enabled,
-# as it would change size of ino_t.
-ifneq (kfreebsd,$(DEB_HOST_ARCH_OS))
-CFLAGS += -D_FILE_OFFSET_BITS=64
-
-# Only use the local sys partial headers hierarchy on non-kFreeBSD systems.
-CFLAGS += -I$(CURDIR)/sys
+ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+	CXXFLAGS += -O0
+else
+	CFLAGS += -O2
+	CXXFLAGS += -O2
 endif
 
-CFLAGS += -I$(CURDIR)/lib/port -include port.h \
-          -I$(CURDIR)/lib/libufs \
-          -D_GNU_SOURCE
-LDFLAGS += -L$(CURDIR)/lib/port -L$(CURDIR)/lib/libufs
+full_version	:= $(shell dpkg-parsechangelog | grep ^Version: | sed -e 's/^.*: //g')
+tar_version	:= $(shell echo $(full_version) | sed -e 's/-.*//g')
+svn_revision	:= $(shell echo $(full_version) | sed -e 's/.*~svn\([0-9]*\)-[0-9]*/\1/g')
+version		:= $(shell echo $(full_version) | sed -e 's/[~+-].*//g')
+major           := $(shell echo $(version) | sed -e 's/\..*//g')
+revision	:= $(shell echo $(full_version) | sed -e 's/^[^+-]*//g')
+
+SVN		:= http://svn.freebsd.org/base/release/$(version).0
+#SVN		:= http://svn.freebsd.org/base/releng/$(version)
+#SVN		:= http://svn.freebsd.org/base/stable/$(major)
+#SVN		:= http://svn.freebsd.org/base/head
+
+SOURCE = ufsutils
+ORIGDIR = $(SOURCE)-$(tar_version)
+TARNAME = $(SOURCE)_$(tar_version).orig.tar.gz
 
 PATH := /usr/lib/freebsd:$(PATH)
-PMAKE = CFLAGS="$(CFLAGS)" LDFLAGS="$(LDFLAGS)" \
-        NO_WERROR=1 NO_SHARED=NO NO_PROFILE=1 NO_PIC=1 WARNS=0 \
+DESTDIR = $(CURDIR)/debian/tmp
+PMAKE = COPTS="$(CFLAGS)" CFLAGS="$(CFLAGS)" \
+        NO_WERROR=1 NOGCCERROR=1 NOSHARED=NO NO_SHARED=NO \
         DESTDIR=$(DESTDIR) make
 
-SRCDIRS := \
-  lib/libufs \
-  sbin/badsect \
-  sbin/dumpfs \
-  sbin/ffsinfo \
-  sbin/fsck_ffs \
-  sbin/fsdb \
-  sbin/growfs \
-  sbin/newfs \
-  sbin/tunefs \
-  $(nil)
-
-SOURCE = $(shell dpkg-parsechangelog -SSource)
-VERSION = $(shell dpkg-parsechangelog -SVersion | sed -e 's/-.*//g')
-SVN = http://svn.freebsd.org/base/release/$(VERSION).0
-ORIGDIR = $(SOURCE)-$(VERSION)
-TARNAME = $(SOURCE)_$(VERSION).orig.tar.gz
+build: build-arch build-indep
 
 get-orig-source:
 	rm -rf $(ORIGDIR)
-	mkdir -p $(ORIGDIR)/sys/sys $(ORIGDIR)/sys/geom
-	for i in $(SRCDIRS) \
-		 sbin/bsdlabel \
-		 sbin/dump \
-		 sbin/mount \
-		 sbin/sunlabel \
-		 sys/ufs \
-		 sys/geom/geom_bsd_enc.c \
-		 sys/sys/disklabel.h sys/sys/mount.h sys/sys/param.h \
-		 sys/sys/ucred.h ; \
-	do \
-	    svn export $(SVN)/$$i $(ORIGDIR)/$$i ; \
+	mkdir -p $(ORIGDIR)/sys/geom
+	for i in \
+		sbin/badsect sbin/dumpfs sbin/fsck_ffs sbin/fsdb \
+		sbin/growfs sbin/newfs sbin/tunefs sbin/ffsinfo \
+		sys/ufs lib/libufs sys/geom/geom_bsd_enc.c \
+		sbin/mount \
+	; do \
+	    svn export $(SVN)/$$i $(ORIGDIR)/$$i || exit ; \
 	done
 	tar --numeric-owner --owner 0 --group 0 -czf ../$(TARNAME) $(ORIGDIR)
 	rm -rf $(ORIGDIR)
 
-build-indep:
+build-arch: ufsutils
 
-build-arch:
-	dh_testdir
+ufsutils: ufsutils-stamp
+ufsutils-stamp:
+	$(PMAKE) -C lib/libufs
+	$(PMAKE) -C sbin/badsect
+	$(PMAKE) -C sbin/dumpfs
+	$(PMAKE) -C sbin/fsck_ffs
+	$(PMAKE) -C sbin/fsdb
+	$(PMAKE) -C sbin/growfs
+	$(PMAKE) -C sbin/newfs
+	$(PMAKE) -C sbin/tunefs
+	$(PMAKE) -C sbin/ffsinfo
+	touch $@
 
-	$(PMAKE) -C lib/port
-	for d in $(SRCDIRS); do \
-		$(PMAKE) -C $$d; \
-	done
-
-build: build-indep build-arch
-
-.PHONY: build-indep build-arch build
+build-indep: build-indep-stamp
+build-indep-stamp:
+	touch $@
 
 clean:
 	dh_testdir
+	dh_testroot
 
-	[ ! -f lib/port/Makefile ] || $(PMAKE) -C lib/port clean
-	for d in $(SRCDIRS); do \
-		$(PMAKE) -C $$d clean; \
-	done
+	$(PMAKE) -C lib/libufs clean
+	$(PMAKE) -C sbin/badsect clean
+	$(PMAKE) -C sbin/dumpfs clean
+	$(PMAKE) -C sbin/fsck_ffs clean
+	$(PMAKE) -C sbin/fsdb clean
+	$(PMAKE) -C sbin/growfs clean
+	$(PMAKE) -C sbin/newfs clean
+	$(PMAKE) -C sbin/tunefs clean
+	$(PMAKE) -C sbin/ffsinfo clean
 
+	rm -f *stamp
 	dh_clean
 
+install: install-indep install-arch
 install-indep:
 
-install-arch: build-arch
+install-arch:
 	dh_testdir
 	dh_testroot
-	dh_prep
-	dh_installdirs
+	dh_prep -a
+	dh_installdirs -a
+	dh_install -a
 
-	mkdir -p $(libdir)
-	mkdir -p $(sbindir)
-	mkdir -p $(man8dir)
-
-	for d in $(SRCDIRS); do \
-		$(PMAKE) -C $$d install BINDIR=/sbin SHLIBDIR=/lib; \
+	mkdir -p debian/ufsutils/{sbin,usr/share/man/man8}
+	for i in badsect dumpfs fsdb growfs tunefs ; do \
+		install -m 755 sbin/$$i/$$i	debian/ufsutils/sbin/$$i.ufs ; \
+		install -m 644 sbin/$$i/$$i.8	debian/ufsutils/usr/share/man/man8/$$i.ufs.8 ; \
 	done
+	install -m 755 sbin/fsck_ffs/fsck_ffs	debian/ufsutils/sbin/fsck.ufs
+	install -m 644 sbin/fsck_ffs/fsck_ffs.8	debian/ufsutils/usr/share/man/man8/fsck.ufs.8
+	install -m 755 sbin/newfs/newfs		debian/ufsutils/sbin/mkfs.ufs
+	install -m 644 sbin/newfs/newfs.8	debian/ufsutils/usr/share/man/man8/mkfs.ufs.8
+	install -m 755 sbin/ffsinfo/ffsinfo	debian/ufsutils/sbin/ffsinfo
+	install -m 644 sbin/ffsinfo/ffsinfo.8	debian/ufsutils/usr/share/man/man8/ffsinfo.8
 
-	# Rename files
-	mv $(sbindir)/badsect	$(sbindir)/badsect.ufs
-	mv $(sbindir)/dumpfs	$(sbindir)/dumpfs.ufs
-	mv $(sbindir)/fsck_ffs	$(sbindir)/fsck.ufs
-	mv $(sbindir)/fsdb	$(sbindir)/fsdb.ufs
-	mv $(sbindir)/growfs	$(sbindir)/growfs.ufs
-	mv $(sbindir)/newfs	$(sbindir)/mkfs.ufs
-	mv $(sbindir)/tunefs	$(sbindir)/tunefs.ufs
-
-	# Remove hardlinks
-	rm $(sbindir)/fsck_4.2bsd
-	rm $(sbindir)/fsck_ufs
-
-	mv $(man8dir)/badsect.8.gz	$(man8dir)/badsect.ufs.8.gz
-	mv $(man8dir)/dumpfs.8.gz	$(man8dir)/dumpfs.ufs.8.gz
-	mv $(man8dir)/fsck_ffs.8.gz	$(man8dir)/fsck.ufs.8.gz
-	mv $(man8dir)/fsdb.8.gz		$(man8dir)/fsdb.ufs.8.gz
-	mv $(man8dir)/growfs.8.gz	$(man8dir)/growfs.ufs.8.gz
-	mv $(man8dir)/newfs.8.gz	$(man8dir)/mkfs.ufs.8.gz
-	mv $(man8dir)/tunefs.8.gz	$(man8dir)/tunefs.ufs.8.gz
-
-	# Remove broken symlinks
-	rm $(man8dir)/fsck_4.2bsd.8.gz
-	rm $(man8dir)/fsck_ufs.8.gz
-
-install: install-indep install-arch
-
-.PHONY: clean install-indep install-arch install
+	mkdir -p debian/ufsutils-udeb/sbin
+	for i in badsect growfs tunefs ; do \
+		install -m 755 sbin/$$i/$$i	debian/ufsutils-udeb/sbin/$$i.ufs ; \
+	done
+	install -m 755 sbin/fsck_ffs/fsck_ffs	debian/ufsutils-udeb/sbin/fsck.ufs
+	install -m 755 sbin/newfs/newfs		debian/ufsutils-udeb/sbin/mkfs.ufs
 
 # Build architecture-independent files here.
-binary-indep:
-	# Nothing to do.
+binary-indep: build install
+# We have nothing to do by default.
 
-# Build architecture-dependent files here.
-binary-arch: install-arch
+# Build architecture-dependant files that arn't kernel modules here.
+binary-arch: build install
 	dh_testdir
 	dh_testroot
-	dh_installchangelogs -s
-	dh_installdocs -s
-	dh_install -s --sourcedir=debian/tmp
-	dh_installman -s
-	dh_link -s
-	dh_strip -s
-	dh_compress -s
-	dh_fixperms -s
-	dh_installdeb -s
-	dh_shlibdeps -s
-	dh_gencontrol -s
-	dh_md5sums -s
-	dh_builddeb -s
+	dh_installchangelogs
+	dh_installdocs
+	dh_installexamples
+#	dh_installmenu
+	dh_installdebconf
+#	dh_installlogrotate
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_installcron
+#	dh_installinfo
+	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_perl
+#	dh_python
+	dh_makeshlibs
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
 
-binary: binary-indep binary-arch
-
-.PHONY: binary-indep binary-arch binary
+binary: binary-arch binary-indep
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch configure

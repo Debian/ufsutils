@@ -1,17 +1,12 @@
+# Patches from (or merged in) upstream
 00_portable_berase.patch
-00_include.patch
-00_libport.patch
-00_mount.patch
-00_param.patch
-00_portable_ufs_types.patch
-01_libufs.patch
-02_bsdlabel.ufs.patch
-02_dumpfs.ufs.patch
-02_fsck.ufs.patch
-02_fsdb.ufs.patch
-02_growfs.ufs.patch
-02_mkfs.ufs.patch
-02_tunefs.ufs.patch
-03_ufsmount.patch
-04_avoid_diocgdelete.patch
+
+# Patches that are in good shape for merging upstream
 05_wipe_otherfs.patch
+fsck_getopt.diff
+
+# Other patches that might or might not be mergeable
+
+# Patches that are likely to be Debian-specific
+04_avoid_diocgdelete.patch
+makefiles.diff

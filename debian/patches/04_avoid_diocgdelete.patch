@@ -4,7 +4,7 @@ PR kern/162905).
 
 --- a/lib/libufs/block.c
 +++ b/lib/libufs/block.c
-@@ -141,7 +141,7 @@
+@@ -139,7 +139,7 @@
  	return (cnt);
  }
  

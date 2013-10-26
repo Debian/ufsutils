@@ -1,0 +1,111 @@
+--- a/sbin/badsect/Makefile
++++ b/sbin/badsect/Makefile
+@@ -7,4 +7,7 @@
+ MAN=	badsect.8
+ WARNS?=	2
+ 
++CFLAGS+=	-I../../lib/libufs
++LDADD+=		-L../../lib/libufs
++
+ .include <bsd.prog.mk>
+--- a/sbin/dumpfs/Makefile
++++ b/sbin/dumpfs/Makefile
+@@ -7,4 +7,9 @@
+ LDADD=	-lufs
+ MAN=	dumpfs.8
+ 
++LDADD+=	-lbsd
++
++CFLAGS+=	-I../../lib/libufs
++LDADD+=		-L../../lib/libufs
++
+ .include <bsd.prog.mk>
+--- a/sbin/ffsinfo/Makefile
++++ b/sbin/ffsinfo/Makefile
+@@ -15,5 +15,8 @@
+ CFLAGS+=-DFS_DEBUG -I${GROWFS}
+ DPADD=	${LIBUFS}
+ LDADD=	-lufs
++
++CFLAGS+=	-I../../lib/libufs
++LDADD+=		-L../../lib/libufs -lbsd
+  
+ .include <bsd.prog.mk>               
+--- a/sbin/fsck_ffs/Makefile
++++ b/sbin/fsck_ffs/Makefile
+@@ -13,6 +13,11 @@
+ WARNS?=	2
+ CFLAGS+= -I${.CURDIR} -I${.CURDIR}/../mount
+ 
++LDADD+=	-lbsd
++
++CFLAGS+=	-I../../lib/libufs
++LDADD+=		-L../../lib/libufs
++
+ .PATH:	${.CURDIR}/../../sys/ufs/ffs ${.CURDIR}/../mount
+ 
+ .include <bsd.prog.mk>
+--- a/sbin/newfs/Makefile
++++ b/sbin/newfs/Makefile
+@@ -5,12 +5,15 @@
+ 
+ PROG=	newfs
+ DPADD=	${LIBUFS} ${LIBUTIL}
+-LDADD=	-lufs -lutil
++LDADD=	-lufs
+ SRCS=	newfs.c mkfs.c geom_bsd_enc.c
+ 
+ WARNS?=	3
+ MAN=	newfs.8
+ 
++CFLAGS+=	-I../../lib/libufs
++LDADD+=		-L../../lib/libufs -lbsd -lfreebsd-glue
++
+ .include <bsd.prog.mk>
+ 
+ test:	${PROG}
+--- a/sbin/tunefs/Makefile
++++ b/sbin/tunefs/Makefile
+@@ -6,6 +6,9 @@
+ LDADD=	-lufs
+ MAN=	tunefs.8
+ 
++CFLAGS+=	-I../../lib/libufs
++LDADD+=		-L../../lib/libufs -lbsd
++
+ WARNS=	3
+ 
+ .include <bsd.prog.mk>
+--- a/sbin/growfs/Makefile
++++ b/sbin/growfs/Makefile
+@@ -18,6 +18,8 @@
+ .endif  
+ 
+ DPADD=	${LIBUTIL}
+-LDADD=	-lutil
++#LDADD=	-lutil
++
++LDADD+=		-lbsd -lfreebsd-glue
+ 
+ .include <bsd.prog.mk>      
+--- a/sbin/fsdb/Makefile
++++ b/sbin/fsdb/Makefile
+@@ -13,4 +13,7 @@
+ DPADD=	${LIBEDIT} ${LIBTERMCAP}
+ .PATH:	${.CURDIR}/../fsck_ffs ${.CURDIR}/../../sys/ufs/ffs
+ 
++LDADD+=	-lbsd
++CFLAGS+=	-I../../lib/libufs
++
+ .include <bsd.prog.mk>
+--- a/lib/libufs/Makefile
++++ b/lib/libufs/Makefile
+@@ -7,6 +7,8 @@
+ SRCS=	block.c cgroup.c inode.c sblock.c type.c ffs_subr.c ffs_tables.c
+ INCS=	libufs.h
+ 
++LDADD+=	-lbsd
++
+ MAN=	bread.3 cgread.3 libufs.3 sbread.3 ufs_disk_close.3
+ MLINKS+= bread.3 bwrite.3
+ MLINKS+= bread.3 berase.3

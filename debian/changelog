@@ -1,3 +1,20 @@
+ufsutils (9.2-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+  [ Robert Millan ]
+  * Switch architecture to kfreebsd-any.
+  * Update debian/rules using freebsd-utils as template.
+  * Changes above render obsolete most of the patches. Simplify patchset
+    to make it more maintainable and easier to update. Patches left:
+    - Already in upstream: 00_portable_berase.patch
+    - Not in upstream, but probably mergeable: 05_wipe_otherfs.patch,
+      fsck_getopt.diff
+    - Pending on kern/162905 (help is welcome): 04_avoid_diocgdelete.patch
+    - Not mergeable: makefiles.diff
+
+ -- Robert Millan <rmh@debian.org>  Sat, 26 Oct 2013 15:08:15 +0200
+
 ufsutils (8.2-4) unstable; urgency=low
 
   [ Robert Millan ]
