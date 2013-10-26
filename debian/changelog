@@ -1,4 +1,4 @@
-ufsutils (8.2-4) UNRELEASED; urgency=low
+ufsutils (8.2-4) unstable; urgency=low
 
   [ Robert Millan ]
   * Import 00_portable_berase.patch from upstream trunk.  Refresh all
@@ -24,7 +24,7 @@ ufsutils (8.2-4) UNRELEASED; urgency=low
   * Only use the local sys partial headers hierarchy on non-kFreeBSD systems.
   * Remove myself from Uploaders.
 
- -- Robert Millan <rmh@debian.org>  Thu, 08 Dec 2011 13:40:32 +0100
+ -- Robert Millan <rmh@debian.org>  Sat, 26 Oct 2013 14:43:08 +0200
 
 ufsutils (8.2-3) unstable; urgency=low
 
