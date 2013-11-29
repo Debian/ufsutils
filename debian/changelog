@@ -1,3 +1,9 @@
+ufsutils (9.2-3) UNRELEASED; urgency=low
+
+  * Bump kfreebsd-kernel-headers B-D to 9.2~5.
+
+ -- Robert Millan <rmh@debian.org>  Fri, 29 Nov 2013 16:24:08 +0100
+
 ufsutils (9.2-2) unstable; urgency=low
 
   * Avoid kfreebsd-kernel-headers versions prior to ino_t fix.
