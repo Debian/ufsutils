@@ -90,7 +90,12 @@
  .include <bsd.prog.mk>      
 --- a/sbin/fsdb/Makefile
 +++ b/sbin/fsdb/Makefile
-@@ -13,4 +13,7 @@
+@@ -9,8 +9,11 @@
+ 	pass5.c setup.c utilities.c ffs_subr.c ffs_tables.c
+ CFLAGS+= -I${.CURDIR}/../fsck_ffs
+ WARNS?= 2
+-LDADD=	-ledit -ltermcap
++LDADD=	-ledit
  DPADD=	${LIBEDIT} ${LIBTERMCAP}
  .PATH:	${.CURDIR}/../fsck_ffs ${.CURDIR}/../../sys/ufs/ffs
  

@@ -9,7 +9,6 @@ Build-Depends: debhelper (>= 7),
  freebsd-glue (>= 0.1.12~),
  libbsd-dev (>= 0.3.0),
  libedit-dev,
- libtinfo-dev,
 Vcs-Browser: http://anonscm.debian.org/viewvc/glibc-bsd/trunk/ufsutils/
 Vcs-Svn: svn://anonscm.debian.org/glibc-bsd/trunk/ufsutils/
 Standards-Version: 3.9.2
