@@ -1,9 +1,9 @@
-ufsutils (9.2-2) UNRELEASED; urgency=low
+ufsutils (9.2-2) unstable; urgency=low
 
   * Avoid kfreebsd-kernel-headers versions prior to ino_t fix.
   * Remove gratuitous dependency on libtermcap / libtinfo.
 
- -- Robert Millan <rmh@debian.org>  Sat, 26 Oct 2013 17:47:36 +0200
+ -- Robert Millan <rmh@debian.org>  Fri, 29 Nov 2013 14:21:12 +0100
 
 ufsutils (9.2-1) experimental; urgency=low
 
