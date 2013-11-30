@@ -1,9 +1,9 @@
-ufsutils (9.2-3) UNRELEASED; urgency=low
+ufsutils (9.2-3) unstable; urgency=low
 
   * Bump kfreebsd-kernel-headers B-D to 9.2~5.
   * Fix ufsutils-udeb shlibs dependencies.
 
- -- Robert Millan <rmh@debian.org>  Fri, 29 Nov 2013 16:24:08 +0100
+ -- Robert Millan <rmh@debian.org>  Sat, 30 Nov 2013 12:56:31 +0100
 
 ufsutils (9.2-2) unstable; urgency=low
 
