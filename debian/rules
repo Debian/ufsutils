@@ -151,6 +151,7 @@ binary-arch: build install
 #	dh_perl
 #	dh_python
 	dh_makeshlibs
+	dh_makeshlibs -pufsutils --add-udeb=ufsutils-udeb
 	dh_installdeb
 	dh_shlibdeps
 	dh_gencontrol
