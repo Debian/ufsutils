@@ -1,6 +1,7 @@
 ufsutils (9.2-4) UNRELEASED; urgency=low
 
   * Fetch source code securely (https) in get-orig-source.
+  * Correctly setup BSD version of MAKEFLAGS to support parallel builds.
 
  -- Robert Millan <rmh@debian.org>  Sat, 07 Dec 2013 23:22:58 +0100
 
