@@ -22,15 +22,14 @@
  .include <bsd.prog.mk>
 --- a/sbin/ffsinfo/Makefile
 +++ b/sbin/ffsinfo/Makefile
-@@ -15,5 +15,8 @@
- CFLAGS+=-DFS_DEBUG -I${GROWFS}
+@@ -16,4 +16,7 @@
  DPADD=	${LIBUFS}
  LDADD=	-lufs
-+
+ 
 +CFLAGS+=	-I../../lib/libufs
 +LDADD+=		-L../../lib/libufs -lbsd
-  
- .include <bsd.prog.mk>               
++
+ .include <bsd.prog.mk>
 --- a/sbin/fsck_ffs/Makefile
 +++ b/sbin/fsck_ffs/Makefile
 @@ -13,6 +13,11 @@

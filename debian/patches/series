@@ -1,5 +1,4 @@
 # Patches from (or merged in) upstream
-00_portable_berase.patch
 
 # Patches that are in good shape for merging upstream
 05_wipe_otherfs.patch

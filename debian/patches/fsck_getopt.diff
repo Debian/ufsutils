@@ -4,8 +4,8 @@
  	sync();
  	skipclean = 1;
  	inoopt = 0;
--	while ((ch = getopt(argc, argv, "b:Bc:CdEfFm:npryZ")) != -1) {
-+	while ((ch = getopt(argc, argv, "ab:Bc:CdEfFm:npryZ")) != -1) {
+-	while ((ch = getopt(argc, argv, "b:Bc:CdEfFm:nprSyZ")) != -1) {
++	while ((ch = getopt(argc, argv, "b:Bc:CdEfFm:nprSyZa")) != -1) {
  		switch (ch) {
  		case 'b':
  			skipclean = 0;

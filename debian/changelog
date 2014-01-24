@@ -1,9 +1,14 @@
-ufsutils (9.2-4) UNRELEASED; urgency=low
+ufsutils (10.0-1) UNRELEASED; urgency=low
 
+  * New upstream release.
+    - Refresh all patches.
+    - 00_portable_berase.patch: Remove (merged).
+
+  [ Robert Millan ]
   * Fetch source code securely (https) in get-orig-source.
   * Correctly setup BSD version of MAKEFLAGS to support parallel builds.
 
- -- Robert Millan <rmh@debian.org>  Sat, 07 Dec 2013 23:22:58 +0100
+ -- Robert Millan <rmh@debian.org>  Fri, 24 Jan 2014 22:46:44 +0100
 
 ufsutils (9.2-3) unstable; urgency=low
 
