@@ -1,4 +1,4 @@
-ufsutils (10.0-1) UNRELEASED; urgency=low
+ufsutils (10.0-1) experimental; urgency=low
 
   * New upstream release.
     - Refresh all patches.
@@ -9,7 +9,7 @@ ufsutils (10.0-1) UNRELEASED; urgency=low
   * Correctly setup BSD version of MAKEFLAGS to support parallel builds.
   * Switch to bmake to follow upstream.
 
- -- Robert Millan <rmh@debian.org>  Fri, 24 Jan 2014 22:46:44 +0100
+ -- Robert Millan <rmh@debian.org>  Fri, 24 Jan 2014 22:54:20 +0100
 
 ufsutils (9.2-3) unstable; urgency=low
 
