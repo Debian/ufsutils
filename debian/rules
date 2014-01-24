@@ -50,7 +50,8 @@ PMAKE = \
 	MAKEFLAGS=$(BSD_MAKEFLAGS) \
 	COPTS="$(CFLAGS)" CFLAGS="$(CFLAGS)" \
         NO_WERROR=1 NOGCCERROR=1 NOSHARED=NO NO_SHARED=NO \
-        DESTDIR=$(DESTDIR) make
+        DESTDIR=$(DESTDIR) \
+	bmake
 
 build: build-arch build-indep
 
