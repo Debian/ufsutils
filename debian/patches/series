@@ -7,5 +7,6 @@ fsck_getopt.diff
 # Other patches that might or might not be mergeable
 
 # Patches that are likely to be Debian-specific
+exit_codes.diff
 04_avoid_diocgdelete.patch
 makefiles.diff
