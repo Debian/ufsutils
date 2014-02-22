@@ -9,4 +9,5 @@ fsck_getopt.diff
 # Patches that are likely to be Debian-specific
 exit_codes.diff
 04_avoid_diocgdelete.patch
+operator_gid.diff
 makefiles.diff
