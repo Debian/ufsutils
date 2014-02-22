@@ -8,27 +8,31 @@
  #include <sys/mman.h>
  #include <sys/resource.h>
  #include <sys/stat.h>
-@@ -531,6 +532,24 @@
+@@ -531,6 +532,28 @@
  			}
  		}
  	}
 +	/* Wipe out other file systems. For now we erase first and last 512 kiB
 +	 * (this works for at least UFS1 and ZFS). */
 +	if (!Eflag && !Nflag) {
-+		off_t mediasize;
-+		if (!ioctl(disk.d_fd, DIOCGMEDIASIZE, &mediasize))
-+			err(1, "DIOCGMEDIASIZE");
++		off_t mediasize = 0;
++
 +		printf("Erasing sectors [%jd...%jd]\n",
 +			sblock.fs_sblockloc / disk.d_bsize,
 +			fsbtodb(&sblock, sblock.fs_size) - 1);
 +		berase(&disk, sblock.fs_sblockloc / disk.d_bsize,
 +			1024 * disk.d_bsize - sblock.fs_sblockloc);
 +
-+		printf("Erasing sectors [%jd...%jd]\n",
-+			(mediasize - 1024 * 512) / disk.d_bsize,
-+			(mediasize / disk.d_bsize) - 1);
-+		berase(&disk, (mediasize - 1024 * 512) / disk.d_bsize,
-+			1024 * 512);
++		if (!ioctl(disk.d_fd, DIOCGMEDIASIZE, &mediasize))
++			warn("DIOCGMEDIASIZE");
++
++		if (mediasize) {
++			printf("Erasing sectors [%jd...%jd]\n",
++				(mediasize - 1024 * 512) / disk.d_bsize,
++				(mediasize / disk.d_bsize) - 1);
++			berase(&disk, (mediasize - 1024 * 512) / disk.d_bsize,
++				1024 * 512);
++		}
 +	}
  	if (!Nflag)
  		do_sbwrite(&disk);
