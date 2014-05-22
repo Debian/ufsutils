@@ -1,3 +1,10 @@
+ufsutils (10.0-3) unstable; urgency=medium
+
+  * Fix FTBFS due to missing <libutil.h> by adding a libutil-freebsd-dev
+    build-dep (Closes: #741088). Thanks Cyril Brulebois.
+
+ -- Robert Millan <rmh@debian.org>  Thu, 22 May 2014 18:05:36 +0200
+
 ufsutils (10.0-2) experimental; urgency=low
 
   * 05_wipe_otherfs.patch: Handle DIOCGMEDIASIZE failure gracefully.
