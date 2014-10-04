@@ -1,15 +1,15 @@
 --- a/sbin/fsck_ffs/main.c
 +++ b/sbin/fsck_ffs/main.c
-@@ -82,7 +82,7 @@
+@@ -84,7 +84,7 @@ main(int argc, char *argv[])
  	sync();
  	skipclean = 1;
  	inoopt = 0;
--	while ((ch = getopt(argc, argv, "b:Bc:CdEfFm:nprSyZ")) != -1) {
-+	while ((ch = getopt(argc, argv, "b:Bc:CdEfFm:nprSyZa")) != -1) {
+-	while ((ch = getopt(argc, argv, "b:Bc:CdEfFm:npRrSyZ")) != -1) {
++	while ((ch = getopt(argc, argv, "b:Bc:CdEfFm:npRrSyZa")) != -1) {
  		switch (ch) {
  		case 'b':
  			skipclean = 0;
-@@ -130,6 +130,8 @@
+@@ -132,6 +132,8 @@ main(int argc, char *argv[])
  			yflag = 0;
  			break;
  

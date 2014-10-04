@@ -10,18 +10,18 @@ Try to stick to fsck(8) expectations:
 
 --- a/sbin/fsck_ffs/fsck.h
 +++ b/sbin/fsck_ffs/fsck.h
-@@ -359,7 +359,7 @@
+@@ -360,7 +360,7 @@ extern struct	ufs2_dinode ufs2_zino;
  #define	ALTERED	0x08
  #define	FOUND	0x10
  
 -#define	EEXIT	8		/* Standard error exit. */
 +#define	EEXIT	4		/* Standard error exit. */
+ #define	ERESTART -1
  
  int flushentry(void);
- /*
 --- a/sbin/fsck_ffs/main.c
 +++ b/sbin/fsck_ffs/main.c
-@@ -253,7 +253,7 @@
+@@ -264,7 +264,7 @@ checkfilesys(char *filesys)
  	sblock_init();
  	if (bkgrdcheck) {
  		if ((fsreadfd = open(filesys, O_RDONLY)) < 0 || readsb(0) == 0)
@@ -30,7 +30,7 @@ Try to stick to fsck(8) expectations:
  		close(fsreadfd);
  		/* Earlier background failed or journaled */
  		if (sblock.fs_flags & (FS_NEEDSFSCK | FS_SUJ))
-@@ -273,7 +273,7 @@
+@@ -284,7 +284,7 @@ checkfilesys(char *filesys)
  		 * If file system is gjournaled, check it here.
  		 */
  		if ((fsreadfd = open(filesys, O_RDONLY)) < 0 || readsb(0) == 0)
@@ -39,7 +39,7 @@ Try to stick to fsck(8) expectations:
  		close(fsreadfd);
  		if ((sblock.fs_flags & FS_GJOURNAL) != 0) {
  			//printf("GJournaled file system detected on %s.\n",
-@@ -406,8 +406,8 @@
+@@ -417,8 +417,8 @@ checkfilesys(char *filesys)
  				if (suj_check(filesys) == 0) {
  					printf("\n***** FILE SYSTEM MARKED CLEAN *****\n");
  					if (chkdoreload(mntp) == 0)
@@ -50,10 +50,12 @@ Try to stick to fsck(8) expectations:
  				}
  			}
  			printf("** Skipping journal, falling through to full fsck\n\n");
-@@ -654,5 +654,5 @@
+@@ -669,7 +669,7 @@ usage(void)
  	(void) fprintf(stderr,
  "usage: %s [-BEFfnpry] [-b block] [-c level] [-m mode] filesystem ...\n",
  	    getprogname());
 -	exit(1);
 +	exit(16);
  }
+ 
+ void
