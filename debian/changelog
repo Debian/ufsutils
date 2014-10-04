@@ -1,11 +1,10 @@
 ufsutils (10.1~svn272500-1) UNRELEASED; urgency=medium
 
-  [ Petr Salinger ]
-  * New upstream snapshot of 10.1 releng branch
+  * New upstream snapshot of 10.1-RC1
     - refresh patches
     - add mk_tests.diff
 
- -- Robert Millan <rmh@debian.org>  Sat, 04 Oct 2014 20:24:56 +0200
+ -- Petr Salinger <Petr.Salinger@seznam.cz>  Sat, 04 Oct 2014 20:24:56 +0200
 
 ufsutils (10.0-3) unstable; urgency=medium
 
