@@ -3,9 +3,9 @@ ufsutils (10.1~svn272500-1) UNRELEASED; urgency=medium
   [ Petr Salinger ]
   * New upstream snapshot of 10.1-RC1
     - refresh patches
-    - add mk_tests.diff
 
   [ Steven Chamberlain ]
+  * Build-Depend on freebsd-mk >= 10.0-5 for MK_HYPERV
   * In get-orig-source, svn export with --ignore-keywords so that
     revision tags do not fuzzy the patches
   * Add myself to Uploaders

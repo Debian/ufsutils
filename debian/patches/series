@@ -11,4 +11,3 @@ exit_codes.diff
 04_avoid_diocgdelete.patch
 operator_gid.diff
 makefiles.diff
-mk_tests.diff
