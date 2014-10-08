@@ -5,7 +5,7 @@ ufsutils (10.1~svn272500-1) unstable; urgency=low
     - refresh patches
 
   [ Steven Chamberlain ]
-  * Build-Depend on freebsd-mk >= 10.0-5 for MK_HYPERV
+  * Build-Depend on freebsd-mk >= 10.0-5 for MK_TESTS
   * In get-orig-source, svn export with --ignore-keywords so that
     revision tags do not fuzzy the patches
   * Add myself to Uploaders
