@@ -1,4 +1,4 @@
-ufsutils (10.1~svn272500-1) UNRELEASED; urgency=medium
+ufsutils (10.1~svn272500-1) unstable; urgency=low
 
   [ Petr Salinger ]
   * New upstream snapshot of 10.1-RC1
