@@ -8,6 +8,7 @@ ufsutils (10.1~svn272500-1) UNRELEASED; urgency=medium
   [ Steven Chamberlain ]
   * In get-orig-source, svn export with --ignore-keywords so that
     revision tags do not fuzzy the patches
+  * Add myself to Uploaders
 
  -- Petr Salinger <Petr.Salinger@seznam.cz>  Sat, 04 Oct 2014 20:24:56 +0200
 
