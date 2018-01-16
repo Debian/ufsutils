@@ -14,9 +14,9 @@ Build-Depends: debhelper (>= 7),
  libbsd-dev (>= 0.3.0),
  libedit-dev,
  libutil-freebsd-dev,
-Vcs-Browser: http://anonscm.debian.org/viewvc/glibc-bsd/trunk/ufsutils/
-Vcs-Svn: svn://anonscm.debian.org/glibc-bsd/trunk/ufsutils/
 Standards-Version: 3.9.2
+Vcs-Browser: https://salsa.debian.org/kfreebsd-team/ufsutils
+Vcs-Git: https://salsa.debian.org/kfreebsd-team/ufsutils.git
 
 Package: ufsutils
 Architecture: kfreebsd-any
