@@ -42,7 +42,7 @@ SVN		:= https://svn0.us-west.freebsd.org/base/releng/$(version)
 
 SOURCE = ufsutils
 ORIGDIR = $(SOURCE)-$(tar_version)
-TARNAME = $(SOURCE)_$(tar_version).orig.tar.gz
+TARNAME = $(SOURCE)_$(tar_version).orig.tar.xz
 
 PATH := /usr/lib/freebsd:$(PATH)
 DESTDIR = $(CURDIR)/debian/tmp
@@ -66,7 +66,7 @@ get-orig-source:
 	; do \
 	    svn export --ignore-keywords $(SVN)/$$i $(ORIGDIR)/$$i || exit ; \
 	done
-	tar --numeric-owner --owner 0 --group 0 -czf ../$(TARNAME) $(ORIGDIR)
+	tar --numeric-owner --owner 0 --group 0 -cJf ../$(TARNAME) $(ORIGDIR)
 	rm -rf $(ORIGDIR)
 
 build-arch: ufsutils
